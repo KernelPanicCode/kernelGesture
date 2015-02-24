@@ -1,0 +1,4 @@
+ofxFaceTracker
+ofxCv
+ofxOpenCv
+ofxOsc

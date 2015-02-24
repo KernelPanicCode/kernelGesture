@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="exampleFace" />
+		<Option makefile_is_custom="1" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Option virtualFolders="addons/;src/;build config/;" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/$(PROJECT_NAME)_debug" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="bin" />
+				<Option object_output="obj/Debug/" />
+				<Option external_deps="../../../libs/openFrameworksCompiled/lib/linux64/libopenFrameworksDebug.a;" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+			</Target>
+			<Target title="Release">
+				<Option output="bin/$(PROJECT_NAME)" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="bin" />
+				<Option object_output="obj/Release/" />
+				<Option external_deps="../../../libs/openFrameworksCompiled/lib/linux64/libopenFrameworks.a;" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+			</Target>
+		</Build>
+		<Unit filename="config.make">
+			<Option virtualFolder="build config" />
+		</Unit>
+		<Unit filename="src/main.cpp">
+			<Option virtualFolder="src/" />
+		</Unit>
+		<Unit filename="src/ofApp.cpp">
+			<Option virtualFolder="src/" />
+		</Unit>
+		<Unit filename="src/ofApp.h">
+			<Option virtualFolder="src/" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+		<Unit filename="../../../addons/ofxFaceTracker/src/ofxFaceTracker.cpp">
+			<Option virtualFolder="addons/ofxFaceTracker/src" />
+		</Unit>
+		<Unit filename="../../../addons/ofxFaceTracker/src/ExpressionClassifier.cpp">
+			<Option virtualFolder="addons/ofxFaceTracker/src" />
+		</Unit>
+		<Unit filename="../../../addons/ofxFaceTracker/src/Expression.h">
+			<Option virtualFolder="addons/ofxFaceTracker/src" />
+		</Unit>
+		<Unit filename="../../../addons/ofxFaceTracker/src/Expression.cpp">
+			<Option virtualFolder="addons/ofxFaceTracker/src" />
+		</Unit>
+		<Unit filename="../../../addons/ofxFaceTracker/src/ofxFaceTracker.h">
+			<Option virtualFolder="addons/ofxFaceTracker/src" />
+		</Unit>
+		<Unit filename="../../../addons/ofxFaceTracker/src/ExpressionClassifier.h">
+			<Option virtualFolder="addons/ofxFaceTracker/src" />
+		</Unit>
+		<Unit filename="../../../addons/ofxFaceTracker/src/ofxFaceTrackerThreaded.h">
+			<Option virtualFolder="addons/ofxFaceTracker/src" />
+		</Unit>
+		<Unit filename="../../../addons/ofxFaceTracker/libs/FaceTracker/include/FaceTracker/FDet.h">
+			<Option virtualFolder="addons/ofxFaceTracker/libs/FaceTracker/include/FaceTracker" />
+		</Unit>
+		<Unit filename="../../../addons/ofxFaceTracker/libs/FaceTracker/include/FaceTracker/IO.h">
+			<Option virtualFolder="addons/ofxFaceTracker/libs/FaceTracker/include/FaceTracker" />
+		</Unit>
+		<Unit filename="../../../addons/ofxFaceTracker/libs/FaceTracker/include/FaceTracker/Patch.h">
+			<Option virtualFolder="addons/ofxFaceTracker/libs/FaceTracker/include/FaceTracker" />
+		</Unit>
+		<Unit filename="../../../addons/ofxFaceTracker/libs/FaceTracker/include/FaceTracker/PDM.h">
+			<Option virtualFolder="addons/ofxFaceTracker/libs/FaceTracker/include/FaceTracker" />
+		</Unit>
+		<Unit filename="../../../addons/ofxFaceTracker/libs/FaceTracker/include/FaceTracker/Tracker.h">
+			<Option virtualFolder="addons/ofxFaceTracker/libs/FaceTracker/include/FaceTracker" />
+		</Unit>
+		<Unit filename="../../../addons/ofxFaceTracker/libs/FaceTracker/include/FaceTracker/CLM.h">
+			<Option virtualFolder="addons/ofxFaceTracker/libs/FaceTracker/include/FaceTracker" />
+		</Unit>
+		<Unit filename="../../../addons/ofxFaceTracker/libs/FaceTracker/include/FaceTracker/PAW.h">
+			<Option virtualFolder="addons/ofxFaceTracker/libs/FaceTracker/include/FaceTracker" />
+		</Unit>
+		<Unit filename="../../../addons/ofxFaceTracker/libs/FaceTracker/include/FaceTracker/FCheck.h">
+			<Option virtualFolder="addons/ofxFaceTracker/libs/FaceTracker/include/FaceTracker" />
+		</Unit>
+		<Unit filename="../../../addons/ofxFaceTracker/libs/FaceTracker/src/lib/CLM.cc">
+			<Option virtualFolder="addons/ofxFaceTracker/libs/FaceTracker/src/lib" />
+		</Unit>
+		<Unit filename="../../../addons/ofxFaceTracker/libs/FaceTracker/src/lib/Patch.cc">
+			<Option virtualFolder="addons/ofxFaceTracker/libs/FaceTracker/src/lib" />
+		</Unit>
+		<Unit filename="../../../addons/ofxFaceTracker/libs/FaceTracker/src/lib/Tracker.cc">
+			<Option virtualFolder="addons/ofxFaceTracker/libs/FaceTracker/src/lib" />
+		</Unit>
+		<Unit filename="../../../addons/ofxFaceTracker/libs/FaceTracker/src/lib/FDet.cc">
+			<Option virtualFolder="addons/ofxFaceTracker/libs/FaceTracker/src/lib" />
+		</Unit>
+		<Unit filename="../../../addons/ofxFaceTracker/libs/FaceTracker/src/lib/PDM.cc">
+			<Option virtualFolder="addons/ofxFaceTracker/libs/FaceTracker/src/lib" />
+		</Unit>
+		<Unit filename="../../../addons/ofxFaceTracker/libs/FaceTracker/src/lib/FCheck.cc">
+			<Option virtualFolder="addons/ofxFaceTracker/libs/FaceTracker/src/lib" />
+		</Unit>
+		<Unit filename="../../../addons/ofxFaceTracker/libs/FaceTracker/src/lib/PAW.cc">
+			<Option virtualFolder="addons/ofxFaceTracker/libs/FaceTracker/src/lib" />
+		</Unit>
+		<Unit filename="../../../addons/ofxFaceTracker/libs/FaceTracker/src/lib/IO.cc">
+			<Option virtualFolder="addons/ofxFaceTracker/libs/FaceTracker/src/lib" />
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
