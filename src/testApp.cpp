@@ -13,8 +13,8 @@ void testApp::setup() {
 	sender.setup("127.0.0.1",9090);
 	classifier.load("expressions");
 
-	sended =  false;
-	
+	state = 0;
+	fade = 0;
 	cleanList();
 }
 void testApp::cleanList(){
@@ -56,8 +56,7 @@ void testApp::sendMessage(){
 	if(meanIndex == -1)
 		return;
 	msg.setAddress("/gesto");
-	//ex = classifier.getPrimaryExpression();
-
+	
 	msg.addIntArg(meanIndex);
 	msg.addFloatArg((double)classifier.getProbability(meanIndex));
 
@@ -114,8 +113,8 @@ void testApp::draw() {
 	ofPopMatrix();
 	ofPopStyle();
 	
-	ofDrawBitmapString(ofToString((int) ofGetFrameRate()), ofGetWidth() - 20, ofGetHeight() - 10);
-	drawHighlightString(
+	//ofDrawBitmapString(ofToString((int) ofGetFrameRate()), ofGetWidth() - 20, ofGetHeight() - 10);
+	/*drawHighlightString(
 		string() +
 		"r - reset\n" +
 		"e - add expression\n" +
@@ -123,10 +122,57 @@ void testApp::draw() {
 		"s - save expressions\n"
 		"l - load expressions",
 		14, ofGetHeight() - 7 * 12);
+	*/
+drawHighlightString(
+		string() +
+		"Nom: - Fer\n" +
+		"year: 198x\n" +
+		"gen - fem\n" +
+		"status - ......",
+		14, ofGetHeight() - 7 * 12);
+	if(state == 0 ){
+		ofSetColor(ofColor::black,255);
+		ofRect(0,0,ofGetWidth(),ofGetHeight());
+	}
+	if(state==1&& fade >  0){
+		ofSetColor(ofColor::black,ofMap(fade,0,fadeTotal,0,255));
+		ofRect(0,0,ofGetWidth(),ofGetHeight());
+		if(fade > 250)
+			fade -= 0.5;
+		else
+			fade--;
+	}
+	if(state == 2){
+		ofSetColor(ofColor::black,ofMap(fade,0,fadeTotal,0,255));
+		ofRect(0,0,ofGetWidth(),ofGetHeight());
+		if(fade <fadeTotal)
+			fade++;
+	}
+	
 }
 
 void testApp::keyPressed(int key) {
-	if(key == 'r') {
+	if(key==32)
+        ofSetFullscreen(ofGetWindowMode()==OF_WINDOW);
+    
+    if(key == 8 && state > 0){
+    	state--;
+    	if(state == 2)
+	    	fade = 0;
+	    if(state == 1)
+			fade = fadeTotal;
+    }
+    
+    if(key == 13 && state <2){	
+		state++;
+		if(state == 2)
+	    	fade = 0;
+	    if(state == 1)
+	    	fade = fadeTotal;
+
+	}
+    
+	/*if(key == 'r') {
 		tracker.reset();
 		classifier.reset();
 	}
@@ -141,5 +187,5 @@ void testApp::keyPressed(int key) {
 	}
 	if(key == 'l') {
 		classifier.load("expressions");
-	}
+	}*/
 }

@@ -6,6 +6,7 @@
 #include "ofxOscMessage.h"
 
 #define numGesture 10
+#define fadeTotal 2500
 
 class testApp : public ofBaseApp {
 public:
@@ -18,7 +19,7 @@ public:
 	void addConcurrency(int index);
 	int mean();
 	void print();
-	
+
 	ofVideoGrabber cam;
 	ofxFaceTracker tracker;
 	ExpressionClassifier classifier;
@@ -27,4 +28,6 @@ public:
 	ofImage edge;
 	bool sended;
 	std::vector<int> concurrency;
+	float fade;
+	int state;
 };
