@@ -17,7 +17,8 @@ public:
 	void cleanList();
 	void addConcurrency(int index);
 	int mean();
-
+	void print();
+	
 	ofVideoGrabber cam;
 	ofxFaceTracker tracker;
 	ExpressionClassifier classifier;

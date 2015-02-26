@@ -23,8 +23,8 @@ void testApp::cleanList(){
 }
 void testApp::addConcurrency(int index){
 	int &con = concurrency.at(index);
-	con = con ++;
-	cout<<"Agregado: "<<index<<endl;
+	con = con + 1;
+	//cout<<"Agregado: "<<index<<endl;
 }
 void testApp::print(){
 	for(std::vector<int>::iterator it = concurrency.begin(); it != concurrency.end();++it)
@@ -44,7 +44,7 @@ int testApp::mean(){
 		}
 		i++;
 	}
-
+	return bigIndex;
 }
 void testApp::sendMessage(){
 	ofxOscMessage msg;
@@ -80,6 +80,7 @@ void testApp::update() {
 	unsigned long long timeEl = ofGetElapsedTimeMillis()%10000;
 
 	if(timeEl > 9500 && timeEl < 9999 && !sended){
+		//print();
 		sendMessage();
 		sended = true;
 		cleanList();
