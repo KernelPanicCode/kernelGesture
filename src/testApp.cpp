@@ -5,13 +5,15 @@ using namespace cv;
 
 void testApp::setup() {
 	ofSetVerticalSync(true);
-	cam.setDeviceID(1);
+	cam.listDevices();
+	cam.setDeviceID(0);
 	cam.initGrabber(640, 480);
 	
 	tracker.setup();
 	tracker.setRescale(.5);
 
 	sender.setup("127.0.0.1",9090);
+	receiver.setup(9091);
 	classifier.load("expressions");
 
 	state = 0;
@@ -90,8 +92,27 @@ void testApp::update() {
 	}
 	if(timeEl < 9500 )
 		sended = false;
-}
 
+	oscReceiverUpdate();
+}
+void testApp::oscReceiverUpdate(){
+	ofxOscMessage ms;
+	while(receiver.hasWaitingMessages()){
+		receiver.getNextMessage( &ms );
+		if ( ms.getAddress().compare("/control") == 0 )
+		{
+			int st;
+			st = ms.getArgAsInt32(0);
+			if(st >=0 && st <=2){
+				state = st;
+				if(state == 2)
+			    	fade = 0;
+			    if(state == 1)
+			    	fade = fadeTotal;
+			}
+		}
+	}
+}
 void testApp::draw() {
 	ofSetColor(255);
 	//cam.draw(0,0);
@@ -109,7 +130,7 @@ void testApp::draw() {
 		ofRect(0, 0, w * classifier.getProbability(i) + .5, h);
 		ofSetColor(255);
 		ofDrawBitmapString(classifier.getDescription(i), 5, 9);
-		ofTranslate(ofGetWidth()/2 - 640/2, h + 5);
+		ofTranslate(0, h + 5);
   }
 	ofPopMatrix();
 	ofPopStyle();
@@ -158,7 +179,6 @@ void testApp::keyPressed(int key) {
 	cout<<key<<endl;
 	if(key==267){
         ofSetFullscreen(ofGetWindowMode()==OF_WINDOW);
-        cout<<"fillllll"<<endl;
     }
     
     if(key == 8 && state > 0){

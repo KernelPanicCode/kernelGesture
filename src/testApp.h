@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "ofxFaceTracker.h"
 #include "ofxOscSender.h"
+#include "ofxOscReceiver.h"
 #include "ofxOscMessage.h"
 
 #define numGesture 10
@@ -19,11 +20,12 @@ public:
 	void addConcurrency(int index);
 	int mean();
 	void print();
-
+	void oscReceiverUpdate();
 	ofVideoGrabber cam;
 	ofxFaceTracker tracker;
 	ExpressionClassifier classifier;
 	ofxOscSender sender;
+	ofxOscReceiver receiver;
 	ofPixels gray;
 	ofImage edge;
 	bool sended;
