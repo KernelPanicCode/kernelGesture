@@ -33,6 +33,9 @@ void testApp::setup() {
 
 	state = 0;
 	fade = 0;
+	noiseX = camx;
+	noiseY = camy;
+	segIni = 0.0;
 	cleanList();
 }
 void testApp::cleanList(){
@@ -108,18 +111,6 @@ void testApp::sendMessage(){
 void testApp::update() {
 	cam.update();
 	
-	/*
-	ofxOscMessage msg;
-	msg.setAddress("/gesto");
-	
-	msg.addIntArg(10);
-	msg.addIntArg(30);
-	msg.addStringArg("classifier.getDescription(meanIndex)");	
-
-	cout<<"mensaje: "<<endl;
-	sender.sendMessage(msg);
-
-	*/
 	if(cam.isFrameNew()) {
 		if(tracker.update(toCv(cam))) {
 			classifier.classify(tracker);
@@ -128,7 +119,7 @@ void testApp::update() {
 				addConcurrency( ind, classifier.getProbability(ind) );
 		}
 		convertColor(cam,gray,CV_RGB2GRAY);		
-		Canny(gray,edge,3,184,3);
+		Canny(gray,edge,noiseX,noiseY,3);
 		edge.update();
 	}
 	unsigned long long timeEl = ofGetElapsedTimeMillis()%20000;
@@ -145,6 +136,15 @@ void testApp::update() {
 	if(timeEl < 19500 )
 		sended = false;
 
+	if(ofGetElapsedTimef() - segIni < 60 * 8){
+		noiseX = ofMap(ofGetElapsedTimef()- segIni,0,60*8,640,0);
+		noiseY = ofMap(ofGetElapsedTimef() - segIni,0,60*8,480,0);
+	}else
+	{
+		noiseX = 0;
+		noiseY = 0;
+	}
+
 	oscReceiverUpdate();
 }
 void testApp::oscReceiverUpdate(){
@@ -159,8 +159,10 @@ void testApp::oscReceiverUpdate(){
 				state = st;
 				if(state == 2)
 			    	fade = 0;
-			    if(state == 1)
-			    	fade = fadeTotal;
+			    if(state == 1){
+			    	fade = fadeInicial;
+			    	segIni = ofGetElapsedTimef();
+			    }
 			}
 		}
 	}
@@ -211,7 +213,7 @@ void testApp::draw() {
 		ofRect(0,0,ofGetWidth(),ofGetHeight());
 	}
 	if(state==1&& fade >  0){
-		ofSetColor(ofColor::black,ofMap(fade,0,fadeTotal,0,255));
+		ofSetColor(ofColor::black,ofMap(fade,0,fadeInicial,0,255));
 		ofRect(0,0,ofGetWidth(),ofGetHeight());
 		if(fade > 250)
 			fade -= 0.5;
@@ -237,15 +239,17 @@ void testApp::keyPressed(int key) {
     	if(state == 2)
 	    	fade = 0;
 	    if(state == 1)
-			fade = fadeTotal;
+			fade = fadeInicial;
     }
     
     if(key == 13 && state <2){	
 		state++;
 		if(state == 2)
 	    	fade = 0;
-	    if(state == 1)
-	    	fade = fadeTotal;
+	    if(state == 1){
+	    	fade = fadeInicial;
+	    	segIni = ofGetElapsedTimef();
+	    }
 
 	}
     

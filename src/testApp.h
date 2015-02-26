@@ -8,6 +8,7 @@
 #include "ofxOscMessage.h"
 
 #define fadeTotal 2500
+#define fadeInicial 800
 #define camx 640
 #define camy 480
 
@@ -35,4 +36,7 @@ public:
 	std::vector<double> probability;
 	float fade;
 	int state;
+	int noiseX;
+	int noiseY;
+	float segIni;
 };
