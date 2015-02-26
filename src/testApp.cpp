@@ -10,39 +10,92 @@ void testApp::setup() {
 	tracker.setup();
 	tracker.setRescale(.5);
 
-
 	sender.setup("127.0.0.1",9090);
+	classifier.load("expressions");
+
+	sended =  false;
+	
+	cleanList();
+}
+void testApp::cleanList(){
+	concurrency.assign(classifier.size(),0);
+	cout<<"Limpiando"<<endl;
+}
+void testApp::addConcurrency(int index){
+	int &con = concurrency.at(index);
+	con = con ++;
+	cout<<"Agregado: "<<index<<endl;
+}
+void testApp::print(){
+	for(std::vector<int>::iterator it = concurrency.begin(); it != concurrency.end();++it)
+	{
+		cout<<*it<<endl;
+	}
+}
+int testApp::mean(){
+	int bigIndex = -1;
+	int big = 0;
+	int i = 0;
+	for(std::vector<int>::iterator it = concurrency.begin(); it != concurrency.end();++it)
+	{
+		if(*it > big){
+			big = *it;
+			bigIndex = i;
+		}
+		i++;
+	}
+
 }
 void testApp::sendMessage(){
 	ofxOscMessage msg;
-	int ex;
 	
+	int meanIndex = -1;
+
+	meanIndex = mean();
+
+	if(meanIndex == -1)
+		return;
 	msg.setAddress("/gesto");
-	ex = classifier.getPrimaryExpression();
-	msg.addIntArg(ex);
-	msg.addFloatArg((double)classifier.getProbability(ex));
-		
+	//ex = classifier.getPrimaryExpression();
+
+	msg.addIntArg(meanIndex);
+	msg.addFloatArg((double)classifier.getProbability(meanIndex));
+
+
+	cout<<"mensaje: "<<meanIndex<<endl;
 	sender.sendMessage(msg);
-	cout<<"Enviando mensaje"<<endl;
 }
 void testApp::update() {
 	cam.update();
-	bool sip = false;
+	
 	if(cam.isFrameNew()) {
 		if(tracker.update(toCv(cam))) {
 			classifier.classify(tracker);
-			sip = true;
-		}		
+			addConcurrency( classifier.getPrimaryExpression() );
+		}
+		convertColor(cam,gray,CV_RGB2GRAY);		
+		Canny(gray,edge,3,184,3);
+		edge.update();
 	}
-	if(ofGetFrameNum()%50 == 0){
+	unsigned long long timeEl = ofGetElapsedTimeMillis()%10000;
+
+	if(timeEl > 9500 && timeEl < 9999 && !sended){
 		sendMessage();
+		sended = true;
+		cleanList();
 	}
+	if(timeEl >= 9500 && timeEl < 9999 && sended){
+
+	}
+	if(timeEl < 9500 )
+		sended = false;
 }
 
 void testApp::draw() {
 	ofSetColor(255);
-	cam.draw(0, 0);
-	tracker.draw();
+	//cam.draw(0, 0);
+	//tracker.draw();
+	edge.draw(0,0);
 	
 	int w = 100, h = 12;
 	ofPushStyle();
