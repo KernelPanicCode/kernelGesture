@@ -1,24 +1,26 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxXmlSettings.h"
 #include "ofxFaceTracker.h"
 #include "ofxOscSender.h"
 #include "ofxOscReceiver.h"
 #include "ofxOscMessage.h"
 
-#define numGesture 10
 #define fadeTotal 2500
+#define camx 640
+#define camy 480
 
 class testApp : public ofBaseApp {
 public:
 	void setup();
 	void update();
 	void draw();
-	void keyPressed(int key);
+	void keyPressed(int);
 	void sendMessage();
 	void cleanList();
-	void addConcurrency(int index);
-	int mean();
+	void addConcurrency(int,double);
+	void mean(int&,int&);
 	void print();
 	void oscReceiverUpdate();
 	ofVideoGrabber cam;
@@ -30,6 +32,7 @@ public:
 	ofImage edge;
 	bool sended;
 	std::vector<int> concurrency;
+	std::vector<double> probability;
 	float fade;
 	int state;
 };

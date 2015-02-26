@@ -1,3 +1,4 @@
+ofxXmlSettings
 ofxFaceTracker
 ofxCv
 ofxOpenCv

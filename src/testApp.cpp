@@ -4,16 +4,31 @@ using namespace ofxCv;
 using namespace cv;
 
 void testApp::setup() {
+
 	ofSetVerticalSync(true);
+
+	/*Setttings ->>>>> */
+	ofxXmlSettings settings;
+	settings.loadFile("settings.xml");
+
+	int device = settings.getValue("settings:cam", 0);
+	string ipSend = settings.getValue("settings:ipSend","127.0.0.1");
+	int portSend = settings.getValue("settings:portSend",9000);
+	int portControl = settings.getValue("settings:portControl",9091);
+
+
+	/*<<<<<< --------  Setttings */
+	cout<<"ipSend"<<ipSend<<endl;
+	cout<<"iport"<<portSend<<endl;
 	cam.listDevices();
-	cam.setDeviceID(0);
-	cam.initGrabber(640, 480);
+	cam.setDeviceID(device);
+	cam.initGrabber(camx, camy);
 	
 	tracker.setup();
 	tracker.setRescale(.5);
 
-	sender.setup("127.0.0.1",9090);
-	receiver.setup(9091);
+	sender.setup(ipSend,portSend);
+	receiver.setup(portControl);
 	classifier.load("expressions");
 
 	state = 0;
@@ -22,20 +37,23 @@ void testApp::setup() {
 }
 void testApp::cleanList(){
 	concurrency.assign(classifier.size(),0);
-	cout<<"Limpiando"<<endl;
+	probability.assign(classifier.size(),0.0);
+	//cout<<"Limpiando"<<endl;
 }
-void testApp::addConcurrency(int index){
+void testApp::addConcurrency(int index,double prob){
 	int &con = concurrency.at(index);
 	con = con + 1;
+	double &dob = probability.at(index);
+	dob = dob + prob;
 	//cout<<"Agregado: "<<index<<endl;
 }
 void testApp::print(){
-	for(std::vector<int>::iterator it = concurrency.begin(); it != concurrency.end();++it)
+	for(std::vector<double>::iterator it = probability.begin(); it != probability.end();++it)
 	{
-		cout<<*it<<endl;
+		cout<<"print: "<<*it<<endl;
 	}
 }
-int testApp::mean(){
+void testApp::mean(int &index, int &prob){
 	int bigIndex = -1;
 	int big = 0;
 	int i = 0;
@@ -47,50 +65,84 @@ int testApp::mean(){
 		}
 		i++;
 	}
-	return bigIndex;
+	if(bigIndex <0 || bigIndex >= classifier.size()){
+		prob = 0;
+		index = -1;
+	}
+	else
+	{
+		double &d = probability.at(bigIndex);
+		if(big == 0 || d == 0){
+			prob = 0;
+			index= 0;
+		}
+		else
+		{
+			//cout<<"Index:"<<bigIndex<<"Prob:"<<d<<"conc"<<big<<endl;
+			prob = (int)round((d / big)*100);
+			index = bigIndex;
+		}
+	}
 }
 void testApp::sendMessage(){
 	ofxOscMessage msg;
 	
 	int meanIndex = -1;
+	int prob= 0.0;
 
-	meanIndex = mean();
+	mean(meanIndex,prob);
 
-	if(meanIndex == -1)
+	if(meanIndex < 0 ||meanIndex >= classifier.size()||prob <=0 )
+	{	cout<<"Sin msj"<<endl;
 		return;
+	}
 	msg.setAddress("/gesto");
 	
 	msg.addIntArg(meanIndex);
-	msg.addFloatArg((double)classifier.getProbability(meanIndex));
+	msg.addIntArg(prob);
+	msg.addStringArg(classifier.getDescription(meanIndex));	
 
-
-	cout<<"mensaje: "<<meanIndex<<endl;
+	cout<<"mensaje: "<<meanIndex<<"Prob"<<prob<<"Msg"<<classifier.getDescription(meanIndex)<<endl;
 	sender.sendMessage(msg);
 }
 void testApp::update() {
 	cam.update();
 	
+	/*
+	ofxOscMessage msg;
+	msg.setAddress("/gesto");
+	
+	msg.addIntArg(10);
+	msg.addIntArg(30);
+	msg.addStringArg("classifier.getDescription(meanIndex)");	
+
+	cout<<"mensaje: "<<endl;
+	sender.sendMessage(msg);
+
+	*/
 	if(cam.isFrameNew()) {
 		if(tracker.update(toCv(cam))) {
 			classifier.classify(tracker);
-			addConcurrency( classifier.getPrimaryExpression() );
+			int ind = classifier.getPrimaryExpression();
+			if(ind >= 0 && ind < classifier.size())
+				addConcurrency( ind, classifier.getProbability(ind) );
 		}
 		convertColor(cam,gray,CV_RGB2GRAY);		
 		Canny(gray,edge,3,184,3);
 		edge.update();
 	}
-	unsigned long long timeEl = ofGetElapsedTimeMillis()%10000;
+	unsigned long long timeEl = ofGetElapsedTimeMillis()%20000;
 
-	if(timeEl > 9500 && timeEl < 9999 && !sended){
+	if(timeEl > 19500 && timeEl < 19999 && !sended){
 		//print();
 		sendMessage();
 		sended = true;
 		cleanList();
 	}
-	if(timeEl >= 9500 && timeEl < 9999 && sended){
+	if(timeEl >= 19500 && timeEl < 19999 && sended){
 
 	}
-	if(timeEl < 9500 )
+	if(timeEl < 19500 )
 		sended = false;
 
 	oscReceiverUpdate();
@@ -115,7 +167,7 @@ void testApp::oscReceiverUpdate(){
 }
 void testApp::draw() {
 	ofSetColor(255);
-	//cam.draw(0,0);
+	//cam.draw(camx,camy);
 	//tracker.draw();
 	edge.draw( 0,0);
 	
@@ -176,7 +228,6 @@ void testApp::draw() {
 }
 
 void testApp::keyPressed(int key) {
-	cout<<key<<endl;
 	if(key==267){
         ofSetFullscreen(ofGetWindowMode()==OF_WINDOW);
     }

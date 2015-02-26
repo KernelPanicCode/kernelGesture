@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+    <cam>1</cam>
+    <ipSend>192.168.1.234</ipSend>
+    <portSend>9000</portSend>
+    <portControl>9091</portControl>
+</settings>

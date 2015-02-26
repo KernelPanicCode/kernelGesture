@@ -310,6 +310,8 @@ obj/linux64/Release/src/testApp.o: src/testApp.cpp src/testApp.h \
  ../../../libs/openFrameworks/video/ofGstVideoPlayer.h \
  ../../../libs/openFrameworks/3d/ofCamera.h \
  ../../../libs/openFrameworks/3d/ofEasyCam.h \
+ ../../../addons/ofxXmlSettings/src/ofxXmlSettings.h \
+ ../../../addons/ofxXmlSettings/libs/tinyxml.h \
  ../../../addons/ofxFaceTracker/src/ofxFaceTracker.h \
  ../../../addons/ofxCv/src/ofxCv.h \
  ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/opencv.hpp \
@@ -402,7 +404,14 @@ obj/linux64/Release/src/testApp.o: src/testApp.cpp src/testApp.h \
  ../../../addons/ofxOsc/libs/oscpack/src/osc/OscException.h \
  ../../../addons/ofxOsc/src/ofxOscBundle.h \
  ../../../addons/ofxOsc/src/ofxOscMessage.h \
- ../../../addons/ofxOsc/src/ofxOscArg.h
+ ../../../addons/ofxOsc/src/ofxOscArg.h \
+ ../../../addons/ofxOsc/src/ofxOscReceiver.h \
+ ../../../addons/ofxOsc/libs/oscpack/src/osc/OscPacketListener.h \
+ ../../../addons/ofxOsc/libs/oscpack/src/osc/OscReceivedElements.h \
+ ../../../addons/ofxOsc/libs/oscpack/src/osc/../ip/PacketListener.h \
+ ../../../addons/ofxOsc/libs/oscpack/src/ip/UdpSocket.h \
+ ../../../addons/ofxOsc/libs/oscpack/src/ip/NetworkingUtils.h \
+ ../../../addons/ofxOsc/libs/oscpack/src/ip/IpEndpointName.h
 
 src/testApp.h:
 
@@ -1060,6 +1069,10 @@ src/testApp.h:
 
 ../../../libs/openFrameworks/3d/ofEasyCam.h:
 
+../../../addons/ofxXmlSettings/src/ofxXmlSettings.h:
+
+../../../addons/ofxXmlSettings/libs/tinyxml.h:
+
 ../../../addons/ofxFaceTracker/src/ofxFaceTracker.h:
 
 ../../../addons/ofxCv/src/ofxCv.h:
@@ -1245,3 +1258,17 @@ src/testApp.h:
 ../../../addons/ofxOsc/src/ofxOscMessage.h:
 
 ../../../addons/ofxOsc/src/ofxOscArg.h:
+
+../../../addons/ofxOsc/src/ofxOscReceiver.h:
+
+../../../addons/ofxOsc/libs/oscpack/src/osc/OscPacketListener.h:
+
+../../../addons/ofxOsc/libs/oscpack/src/osc/OscReceivedElements.h:
+
+../../../addons/ofxOsc/libs/oscpack/src/osc/../ip/PacketListener.h:
+
+../../../addons/ofxOsc/libs/oscpack/src/ip/UdpSocket.h:
+
+../../../addons/ofxOsc/libs/oscpack/src/ip/NetworkingUtils.h:
+
+../../../addons/ofxOsc/libs/oscpack/src/ip/IpEndpointName.h:
