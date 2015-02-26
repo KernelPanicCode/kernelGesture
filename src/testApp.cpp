@@ -5,6 +5,7 @@ using namespace cv;
 
 void testApp::setup() {
 	ofSetVerticalSync(true);
+	cam.setDeviceID(1);
 	cam.initGrabber(640, 480);
 	
 	tracker.setup();
@@ -93,22 +94,22 @@ void testApp::update() {
 
 void testApp::draw() {
 	ofSetColor(255);
-	//cam.draw(0, 0);
+	//cam.draw(0,0);
 	//tracker.draw();
-	edge.draw(0,0);
+	edge.draw( 0,0);
 	
-	int w = 100, h = 12;
+	int w = 250, h = 30;
 	ofPushStyle();
 	ofPushMatrix();
 	ofTranslate(5, 10);
 	int n = classifier.size();
 	int primary = classifier.getPrimaryExpression();
   for(int i = 0; i < n; i++){
-		ofSetColor(i == primary ? ofColor::red : ofColor::black);
+		ofSetColor(i == primary ? ofColor::red : ofColor::black,125);
 		ofRect(0, 0, w * classifier.getProbability(i) + .5, h);
 		ofSetColor(255);
 		ofDrawBitmapString(classifier.getDescription(i), 5, 9);
-		ofTranslate(0, h + 5);
+		ofTranslate(ofGetWidth()/2 - 640/2, h + 5);
   }
 	ofPopMatrix();
 	ofPopStyle();
@@ -123,13 +124,15 @@ void testApp::draw() {
 		"l - load expressions",
 		14, ofGetHeight() - 7 * 12);
 	*/
-drawHighlightString(
+	drawHighlightString(
 		string() +
 		"Nom: - Fer\n" +
 		"year: 198x\n" +
 		"gen - fem\n" +
 		"status - ......",
 		14, ofGetHeight() - 7 * 12);
+
+
 	if(state == 0 ){
 		ofSetColor(ofColor::black,255);
 		ofRect(0,0,ofGetWidth(),ofGetHeight());
@@ -152,8 +155,11 @@ drawHighlightString(
 }
 
 void testApp::keyPressed(int key) {
-	if(key==32)
+	cout<<key<<endl;
+	if(key==267){
         ofSetFullscreen(ofGetWindowMode()==OF_WINDOW);
+        cout<<"fillllll"<<endl;
+    }
     
     if(key == 8 && state > 0){
     	state--;
