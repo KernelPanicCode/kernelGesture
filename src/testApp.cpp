@@ -171,7 +171,7 @@ void testApp::draw() {
 	ofSetColor(255);
 	//cam.draw(camx,camy);
 	//tracker.draw();
-	edge.draw( 0,0);
+	edge.draw( 0,0,ofGetWidth(),ofGetHeight());
 	
 	int w = 250, h = 30;
 	ofPushStyle();
@@ -180,7 +180,7 @@ void testApp::draw() {
 	int n = classifier.size();
 	int primary = classifier.getPrimaryExpression();
   for(int i = 0; i < n; i++){
-		ofSetColor(i == primary ? ofColor::red : ofColor::black,125);
+		ofSetColor(i == primary ? ofColor::red : ofColor::white,115);
 		ofRect(0, 0, w * classifier.getProbability(i) + .5, h);
 		ofSetColor(255);
 		ofDrawBitmapString(classifier.getDescription(i), 5, 9);
