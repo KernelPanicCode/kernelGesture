@@ -33,8 +33,8 @@ void testApp::setup() {
 
 	state = 0;
 	fade = 0;
-	noiseX = camx;
-	noiseY = camy;
+	noiseX = camx/2;
+	noiseY = camy/2;
 	segIni = 0.0;
 	cleanList();
 }
@@ -101,12 +101,35 @@ void testApp::sendMessage(){
 	}
 	msg.setAddress("/gesto");
 	
-	msg.addIntArg(meanIndex);
+	int indVerd = -1;
+
+	switch(meanIndex){
+		case 0:
+		indVerd = 1;
+		break;
+		case 1:
+		indVerd = 0;
+		break;
+		case 2:
+		indVerd = 4;
+		break;
+		case 3:
+		indVerd =2;
+		break;
+		case 4:
+		indVerd = 3;
+		break;
+	}
+	
+	msg.addIntArg(indVerd);
 	msg.addIntArg(prob);
 	msg.addStringArg(classifier.getDescription(meanIndex));	
 
-	cout<<"mensaje: "<<meanIndex<<"Prob"<<prob<<"Msg"<<classifier.getDescription(meanIndex)<<endl;
-	sender.sendMessage(msg);
+	if(state!=0){
+		cout<<"mensaje: "<<indVerd<<"; Prob"<<prob<<"; Msg"<<classifier.getDescription(meanIndex)<<endl;
+		if(indVerd>0)
+			sender.sendMessage(msg);
+	}
 }
 void testApp::update() {
 	cam.update();
@@ -137,8 +160,8 @@ void testApp::update() {
 		sended = false;
 
 	if(ofGetElapsedTimef() - segIni < 60 * 8){
-		noiseX = ofMap(ofGetElapsedTimef()- segIni,0,60*8,640,0);
-		noiseY = ofMap(ofGetElapsedTimef() - segIni,0,60*8,480,0);
+		noiseX = ofMap(ofGetElapsedTimef()- segIni,0,60*8,640/3,0);
+		noiseY = ofMap(ofGetElapsedTimef() - segIni,0,60*8,480/3,0);
 	}else
 	{
 		noiseX = 0;
@@ -183,7 +206,7 @@ void testApp::draw() {
 		ofSetColor(i == primary ? ofColor::red : ofColor::white,115);
 		ofRect(0, 0, w * classifier.getProbability(i) + .5, h);
 		ofSetColor(255);
-		ofDrawBitmapString(classifier.getDescription(i), 5, 9);
+		ofDrawBitmapString("[" + classifier.getDescription(i)+"]", 5, 18);
 		ofTranslate(0, h + 5);
   }
 	ofPopMatrix();

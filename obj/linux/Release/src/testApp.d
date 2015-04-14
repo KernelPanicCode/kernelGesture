@@ -306,6 +306,8 @@ obj/linux/Release/src/testApp.o: src/testApp.cpp src/testApp.h \
  ../../../libs/openFrameworks/video/ofGstVideoPlayer.h \
  ../../../libs/openFrameworks/3d/ofCamera.h \
  ../../../libs/openFrameworks/3d/ofEasyCam.h \
+ ../../../addons/ofxXmlSettings/src/ofxXmlSettings.h \
+ ../../../addons/ofxXmlSettings/libs/tinyxml.h \
  ../../../addons/ofxFaceTracker/src/ofxFaceTracker.h \
  ../../../addons/ofxCv/src/ofxCv.h \
  ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/opencv.hpp \
@@ -1054,6 +1056,10 @@ src/testApp.h:
 ../../../libs/openFrameworks/3d/ofCamera.h:
 
 ../../../libs/openFrameworks/3d/ofEasyCam.h:
+
+../../../addons/ofxXmlSettings/src/ofxXmlSettings.h:
+
+../../../addons/ofxXmlSettings/libs/tinyxml.h:
 
 ../../../addons/ofxFaceTracker/src/ofxFaceTracker.h:
 

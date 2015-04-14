@@ -7,8 +7,8 @@
 #include "ofxOscReceiver.h"
 #include "ofxOscMessage.h"
 
-#define fadeTotal 2500
-#define fadeInicial 800
+#define fadeTotal 500
+#define fadeInicial 200
 #define camx 640
 #define camy 480
 

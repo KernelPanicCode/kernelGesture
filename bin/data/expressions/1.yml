@@ -1,5 +1,5 @@
 %YAML:1.0
-description: "1"
+description: "alegria"
 samples:
    - !!opencv-matrix
       rows: 198

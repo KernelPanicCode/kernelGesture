@@ -1,5 +1,5 @@
 %YAML:1.0
-description: "0"
+description: "estable"
 samples:
    - !!opencv-matrix
       rows: 198
